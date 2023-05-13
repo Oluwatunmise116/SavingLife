@@ -1,4 +1,4 @@
-# ComeFundMe
+# SavingLife
 
 ## Description
 A charity campaign is a fundraising effort that aims to raise money, awareness, and support for a charitable cause or organization. It typically involves a coordinated effort to promote the cause, solicit donations, and engage with the public to encourage participation. Charity campaigns can take many different forms, including online fundraising drives, benefit concerts, charity auctions, telethons, and social media campaigns. The goal of a charity campaign is to generate as much support and donations as possible for the charitable cause or organization in question, in order to help them achieve their goals and make a positive impact in the world.
