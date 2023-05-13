@@ -42,6 +42,10 @@ contract SavingLife {
         string memory _image,
         uint _amount
     ) public {
+        require(bytes(_title).length > 0, "Title is required");
+        require(bytes(_description).length > 0, "Description is required");
+        require(bytes(_image).length > 0, "Image is required");
+        require(_amount > 0, "Amount needed must be greater than 0 ");
         Campaign memory newCampaign = Campaign(
             totalCampaign,
             payable(msg.sender),
@@ -78,6 +82,10 @@ contract SavingLife {
             msg.sender != campaigns[_id].creator,
             "You cannot donate to your own campaign"
         );
+        require(
+        msg.value <= (campaigns[_id].amount - campaigns[_id].raised),
+        "Donation amount exceeds required amount"
+    );
         campaigns[_id].contributors++;
         campaigns[_id].raised += msg.value;
     }
