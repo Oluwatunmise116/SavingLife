@@ -9,7 +9,7 @@ This allow a user to
 * Withdraw funds raised from their campaign
 
 ## Live Demo
-[ComeFundMe](https://hexdee.github.io/ComeFundMe/)
+[SavingLife](https://oluwatunmise116.github.io/SavingLife/)
 
 ## Usage
 
