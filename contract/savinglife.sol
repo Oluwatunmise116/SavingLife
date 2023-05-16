@@ -27,10 +27,11 @@ contract SavingLife {
     /// @notice isValidId is a modifier that checks is an id is valid or not
     /// @dev It checks if the id passed as an argument is less than the totalCampaign value
     /// @param _id the id to be checked
-    modifier isValidId(uint256 _id) {
-        require(_id < totalCampaign, "Invalid ID");
-        _;
-    }
+  modifier isValidId(uint256 _id) {
+    require(_id <= totalCampaign, "Invalid ID");
+    _;
+}
+
 
     /// @param _title the title of the charity campaign
     /// @param _description the description of what the charity campaign is about
@@ -72,6 +73,7 @@ contract SavingLife {
     /// @dev It uses the campaign's id passed as an argument to get a particular campaign from the campaign array and the funds donated are added to that campaign
     /// @param _id the id of a campaign
     function donate(uint _id) public payable isValidId(_id) {
+        require(msg.sender != campaigns[_id].creator, "You cannot donate to your own campaign");
         require(msg.value > 0, "Amount must be greater than 0!");
         require(campaigns[_id].ended == false, "Campaign has ended");
         require(
@@ -85,16 +87,30 @@ contract SavingLife {
     /// @notice withdraw allows only the owner of a campaign to withdraw all the funds donated to that campaign
     /// @dev It uses the campaign id passed as an argument to get a particular campaign from the campaign array and sends the funds donated to the campaign to the owner of the campaign
     /// @param _id the id of a campaign
+
     function withdraw(uint _id) public isValidId(_id) {
+    require(
+        campaigns[_id].creator == msg.sender,
+        "Only creator can withdraw"
+    );
+    require(campaigns[_id].ended == false, "Funds have been withdrawn!");
+    require(campaigns[_id].raised > 0, "No funds to withdraw");
+    uint256 amount = campaigns[_id].raised;
+
+    campaigns[_id].creator.transfer(amount);
+
+    campaigns[_id].ended = true;
+}
+
+
+        
+    function endCampaign(uint _id) public isValidId(_id) {
         require(
             campaigns[_id].creator == msg.sender,
-            "Only creator can withdraw"
+            "Only creator can end the campaign"
         );
-        require(campaigns[_id].ended == false, "Funds has been withdrawn!");
-        require(campaigns[_id].raised > 0, "No funds to withdraw");
-        uint256 amount = campaigns[_id].raised;
+        require(campaigns[_id].ended == false, "Campaign has already ended");
+        
         campaigns[_id].ended = true;
-
-        campaigns[_id].creator.transfer(amount);
     }
 }
